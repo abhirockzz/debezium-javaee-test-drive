@@ -1,0 +1,64 @@
+dezk:
+    image: debezium/zookeeper:0.5
+    container_name: "dezk"
+    ports:
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+dekaf:
+    image: debezium/kafka:0.5
+    container_name: "dekaf"
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+    links:
+    - dezk:dezk
+
+demysql:
+    image: debezium/example-mysql:0.5
+    container_name: "demysql"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=debezium 
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpw
+
+dekafcon:
+    image: debezium/connect:0.5
+    container_name: "dekafcon"
+    ports:
+      - "8083:8083"
+    environment:
+      - GROUP_ID=1 
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+    links:
+    - dezk:dezk
+    - dekaf:dekaf
+    - demysql:demysql
+
+ykafkaman:
+    image: sheepkiller/kafka-manager:latest
+    container_name: "ykafkaman"
+    ports:
+      - "9000:9000"
+    environment:
+      - ZK_HOSTS=dezk:2181 
+      - APPLICATION_SECRET=letmein
+      - KM_ARGS=-Djava.net.preferIPv4Stack=true
+    links:
+    - dezk:dezk
+
+kakfa-consumer-app:
+  build: .
+  container_name: "kakfa-consumer-app"
+  environment:
+    - KAFKA_CLUSTER=dekaf:9092
+    - TOPIC_NAME=dbserver1.inventory.customers
+    - KAFKA_CONSUMER_POLL_TIMEOUT=20000
+  ports:
+      - "8080:8080"
+  links:
+    - dekaf:dekaf
