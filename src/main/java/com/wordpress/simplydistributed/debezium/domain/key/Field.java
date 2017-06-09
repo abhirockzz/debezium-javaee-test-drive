@@ -1,49 +1,53 @@
 
-package com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.key;
+package com.wordpress.simplydistributed.debezium.domain.key;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+    "field",
     "type",
-    "name",
-    "optional",
-    "fields"
+    "optional"
 })
-public class Schema {
+public class Field {
 
+    @JsonProperty("field")
+    private String field;
     @JsonProperty("type")
     private String type;
-    @JsonProperty("name")
-    private String name;
     @JsonProperty("optional")
     private Boolean optional;
-    @JsonProperty("fields")
-    private List<Field> fields = null;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public Schema() {
+    public Field() {
     }
 
     /**
      * 
+     * @param field
      * @param optional
-     * @param name
      * @param type
-     * @param fields
      */
-    public Schema(String type, String name, Boolean optional, List<Field> fields) {
+    public Field(String field, String type, Boolean optional) {
         super();
+        this.field = field;
         this.type = type;
-        this.name = name;
         this.optional = optional;
-        this.fields = fields;
+    }
+
+    @JsonProperty("field")
+    public String getField() {
+        return field;
+    }
+
+    @JsonProperty("field")
+    public void setField(String field) {
+        this.field = field;
     }
 
     @JsonProperty("type")
@@ -56,16 +60,6 @@ public class Schema {
         this.type = type;
     }
 
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @JsonProperty("optional")
     public Boolean getOptional() {
         return optional;
@@ -74,16 +68,6 @@ public class Schema {
     @JsonProperty("optional")
     public void setOptional(Boolean optional) {
         this.optional = optional;
-    }
-
-    @JsonProperty("fields")
-    public List<Field> getFields() {
-        return fields;
-    }
-
-    @JsonProperty("fields")
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
     }
 
 }

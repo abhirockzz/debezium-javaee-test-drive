@@ -1,5 +1,5 @@
 
-package com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.val;
+package com.wordpress.simplydistributed.debezium.domain.val;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,43 +12,43 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "fields",
     "optional",
     "name",
-    "field"
+    "version"
 })
-public class Field {
+public class Schema {
 
     @JsonProperty("type")
     private String type;
     @JsonProperty("fields")
-    private List<Field_> fields = null;
+    private List<Field> fields = null;
     @JsonProperty("optional")
     private Boolean optional;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("field")
-    private String field;
+    @JsonProperty("version")
+    private Integer version;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public Field() {
+    public Schema() {
     }
 
     /**
      * 
-     * @param field
      * @param name
      * @param optional
      * @param type
+     * @param version
      * @param fields
      */
-    public Field(String type, List<Field_> fields, Boolean optional, String name, String field) {
+    public Schema(String type, List<Field> fields, Boolean optional, String name, Integer version) {
         super();
         this.type = type;
         this.fields = fields;
         this.optional = optional;
         this.name = name;
-        this.field = field;
+        this.version = version;
     }
 
     @JsonProperty("type")
@@ -62,12 +62,12 @@ public class Field {
     }
 
     @JsonProperty("fields")
-    public List<Field_> getFields() {
+    public List<Field> getFields() {
         return fields;
     }
 
     @JsonProperty("fields")
-    public void setFields(List<Field_> fields) {
+    public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 
@@ -91,14 +91,14 @@ public class Field {
         this.name = name;
     }
 
-    @JsonProperty("field")
-    public String getField() {
-        return field;
+    @JsonProperty("version")
+    public Integer getVersion() {
+        return version;
     }
 
-    @JsonProperty("field")
-    public void setField(String field) {
-        this.field = field;
+    @JsonProperty("version")
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
 }

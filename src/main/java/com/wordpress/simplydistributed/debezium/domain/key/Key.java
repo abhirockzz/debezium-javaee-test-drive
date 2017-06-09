@@ -1,6 +1,5 @@
 
-package com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.val;
-
+package com.wordpress.simplydistributed.debezium.domain.key;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "schema",
     "payload"
 })
-public class Event {
+public class Key {
 
     @JsonProperty("schema")
     private Schema schema;
@@ -21,7 +20,7 @@ public class Event {
      * No args constructor for use in serialization
      * 
      */
-    public Event() {
+    public Key() {
     }
 
     /**
@@ -29,7 +28,7 @@ public class Event {
      * @param schema
      * @param payload
      */
-    public Event(Schema schema, Payload payload) {
+    public Key(Schema schema, Payload payload) {
         super();
         this.schema = schema;
         this.payload = payload;

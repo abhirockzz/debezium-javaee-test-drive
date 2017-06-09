@@ -1,10 +1,10 @@
-package com.wordpress.abhirockzz.kafEEne.concurrency.utils;
+package com.wordpress.simplydistributed.debezium;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.key.Key;
-import com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.val.Event;
-import com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.val.Payload;
+import com.wordpress.simplydistributed.debezium.domain.key.Key;
+import com.wordpress.simplydistributed.debezium.domain.val.Event;
+import com.wordpress.simplydistributed.debezium.domain.val.Payload;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;

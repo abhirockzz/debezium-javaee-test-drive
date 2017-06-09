@@ -1,5 +1,5 @@
 
-package com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.val;
+package com.wordpress.simplydistributed.debezium.domain.val;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
