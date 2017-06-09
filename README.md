@@ -16,7 +16,6 @@ Please substitute your Docker host IP which you can get using `docker-machine ip
 
 `curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" <DOCKER_HOST_IP>:8083/connectors/ -d '{ "name": "inventory-connector", "config": { "connector.class": "io.debezium.connector.mysql.MySqlConnector", "tasks.max": "1", "database.hostname": "demysql", "database.port": "3306", "database.user": "debezium", "database.password": "dbz", "database.server.id": "184054", "database.server.name": "dbserver1", "database.whitelist": "inventory", "database.history.kafka.bootstrap.servers": "dekaf:9092", "database.history.kafka.topic": "dbhistory.inventory" } }'`
 
-
 ### See it in action..
 
 Assuming you have connected to MySQL, you can now plat around with the data
@@ -35,7 +34,7 @@ The consumer will receive the events, parse them and log it - see the highlighte
 
 ![](https://abhirockzz.files.wordpress.com/2017/06/results.jpg)
 
-### Setup Yahoo Kafka Manager
+### Configure Yahoo Kafka Manager
 
 Browse to `http://<DOCKER_HOST_IP>:9000`, choose **Add Cluster** from the **Cluster** menu (ignore Kafka version for now)
 
