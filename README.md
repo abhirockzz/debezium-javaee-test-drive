@@ -47,7 +47,7 @@ You should see the topics created by the Debezium MySQL Kafka Connector
 
 Check the (Java EE) consumer in Yahoo Kafka Manager (using the **Consumers** menu)
 
-![](https://abhirockzz.files.wordpress.com/2017/06/consumer-1.jpg)
+![](https://abhirockzz.files.wordpress.com/2017/06/consumer-11.jpg)
 
 ### Once you're done...
 
