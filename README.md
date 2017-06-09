@@ -19,13 +19,13 @@ Please substitute your Docker host IP which you can get using `docker-machine ip
 
 ### See it in action..
 
-Assuming you have connected to MySQL, you can now play around with the data
-
 #### Connect to the MySQL Docker container
 
 You can do so using another Docker container (`docker run -it --rm --name mysqlterm --link demysql mysql:5.7 sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"'`) as mentioned in the [Debezium tutorial](http://debezium.io/docs/tutorial/) or an external client (I used one)
 
 ![](https://abhirockzz.files.wordpress.com/2017/06/mysql-1.jpg)
+
+Once you have connected to MySQL, you can play around with the data
 
 - **Update** a record: `UPDATE customers SET first_name='Anne Marie' WHERE id=1004;`
 - **Create** a new record: `INSERT INTO inventory.customers (first_name, last_name, email) VALUES ('abhi', 'rockzz', 'abhirockzz@gmail.com')`
@@ -54,4 +54,3 @@ Check the (Java EE) consumer in Yahoo Kafka Manager (using the **Consumers** men
 ### Once you're done...
 
 `docker-compose down -v`
-
