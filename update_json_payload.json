@@ -1,0 +1,29 @@
+{
+  "before": {
+    "id": 1001,
+    "first_name": "Sally",
+    "last_name": "Thomas",
+    "email": "sally.thomas@acme.com"
+  },
+  "after": {
+    "id": 1001,
+    "first_name": "Sallytestewffsdfsdf",
+    "last_name": "Thomas",
+    "email": "sally.thomas@acme.com"
+  },
+  "source": {
+    "name": "dbserver1",
+    "server_id": 223344,
+    "ts_sec": 1496983560,
+    "gtid": null,
+    "file": "mysql-bin.000003",
+    "pos": 364,
+    "row": 0,
+    "snapshot": null,
+    "thread": 11,
+    "db": "inventory",
+    "table": "customers"
+  },
+  "op": "u",
+  "ts_ms": 1496983560108
+}

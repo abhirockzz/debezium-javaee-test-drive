@@ -1,10 +1,18 @@
 package com.wordpress.abhirockzz.kafEEne.concurrency.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.key.Key;
+import com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.val.Event;
+import com.wordpress.abhirockzz.kafEEne.concurrency.utils.domain.val.Payload;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.concurrent.ManagedTask;
@@ -19,7 +27,7 @@ import org.apache.kafka.common.TopicPartition;
 
 public class Consumer implements Runnable, ManagedTask {
 
-    private KafkaConsumer<String, String> kc;
+    private KafkaConsumer<String, JsonNode> kc;
     private String topic = null;
     private String pollTimeout = null;
 
@@ -28,7 +36,8 @@ public class Consumer implements Runnable, ManagedTask {
         consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, System.getenv().getOrDefault("KAFKA_CLUSTER", "192.168.99.100:9092"));
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "kafEEne-group");
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+//        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.connect.json.JsonDeserializer");
 
         topic = System.getenv().getOrDefault("TOPIC_NAME", "test-topic");
 
@@ -38,17 +47,46 @@ public class Consumer implements Runnable, ManagedTask {
 
         pollTimeout = System.getenv().getOrDefault("KAFKA_CONSUMER_POLL_TIMEOUT", "30000"); //default is 30 seconds
     }
-
+    private ObjectMapper mapper = new ObjectMapper();
+    
     @Override
     public void run() {
-        ConsumerRecords<String, String> records = kc.poll(Long.valueOf(pollTimeout)); // timeout
+        //ConsumerRecords<String, String> records = kc.poll(Long.valueOf(pollTimeout)); // timeout
+        ConsumerRecords<String, JsonNode> records = kc.poll(Long.valueOf(pollTimeout)); // timeout
         System.out.println("Got " + records.count() + " records");
 
-        for (ConsumerRecord<String, String> record : records) {
-            System.out.println("Consumed record " + record);
+        for (ConsumerRecord<String, JsonNode> record : records) {
+            //System.out.println("Value " + record.value().toString());
+            try {
+                Event event = mapper.readValue(record.value().toString(), Event.class);
+                Key key = mapper.readValue(record.key(), Key.class);
+                //System.out.println("Key "+ key.getPayload());
+                //System.out.println("Payload "+ event.getPayload());
+                Payload payload = event.getPayload();
+                if(payload!=null){
+                    System.out.println("Record with ID "+key.getPayload().getId() + " was "+ watHappened(payload));
+                }
+                
+            } catch (IOException ex) {
+                Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-
+    
+    private String watHappened(Payload payload){
+        String action = null;
+        
+        if(payload.getOp().equals("c")){
+            action = "Created";
+        }else if(payload.getOp().equals("u")){
+            action = "Updated";
+        }else if(payload.getOp().equals("d")){
+            action = "Deleted";
+        }
+        
+        return action;
+    }
+    
     private void committedOffsetsInfo() {
 
         System.out.println("Committed Offsets info\n");

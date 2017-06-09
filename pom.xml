@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wordpress.abhirockzz</groupId>
-    <artifactId>kafka-concurrency-utils</artifactId>
+    <artifactId>kafka-javaee-consumer</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>kafka-concurrency-utils</name>
+    <name>kafka-javaee-consumer</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -24,6 +24,11 @@
         <dependency>
 	    <groupId>org.apache.kafka</groupId>
 	    <artifactId>kafka-clients</artifactId>
+	    <version>0.10.2.1</version>
+	</dependency>
+        <dependency>
+	    <groupId>org.apache.kafka</groupId>
+	    <artifactId>connect-json</artifactId>
 	    <version>0.10.2.1</version>
 	</dependency>
     </dependencies>
