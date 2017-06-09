@@ -25,7 +25,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 
-public class Consumer implements Runnable, ManagedTask {
+public class Consumer implements Runnable {
 
     private KafkaConsumer<String, JsonNode> kc;
     private String topic = null;
@@ -51,17 +51,13 @@ public class Consumer implements Runnable, ManagedTask {
     
     @Override
     public void run() {
-        //ConsumerRecords<String, String> records = kc.poll(Long.valueOf(pollTimeout)); // timeout
         ConsumerRecords<String, JsonNode> records = kc.poll(Long.valueOf(pollTimeout)); // timeout
         System.out.println("Got " + records.count() + " records");
 
         for (ConsumerRecord<String, JsonNode> record : records) {
-            //System.out.println("Value " + record.value().toString());
             try {
                 Event event = mapper.readValue(record.value().toString(), Event.class);
                 Key key = mapper.readValue(record.key(), Key.class);
-                //System.out.println("Key "+ key.getPayload());
-                //System.out.println("Payload "+ event.getPayload());
                 Payload payload = event.getPayload();
                 if(payload!=null){
                     System.out.println("Record with ID "+key.getPayload().getId() + " was "+ watHappened(payload));
@@ -100,7 +96,7 @@ public class Consumer implements Runnable, ManagedTask {
                 .forEach(om -> System.out.println("Committed offset " + om.offset()));
     }
 
-    @Override
+    //@Override
     public ManagedTaskListener getManagedTaskListener() {
         return new ManagedTaskListener() {
             @Override
@@ -133,7 +129,7 @@ public class Consumer implements Runnable, ManagedTask {
         };
     }
 
-    @Override
+    //@Override
     public Map<String, String> getExecutionProperties() {
         return Collections.emptyMap();
     }
